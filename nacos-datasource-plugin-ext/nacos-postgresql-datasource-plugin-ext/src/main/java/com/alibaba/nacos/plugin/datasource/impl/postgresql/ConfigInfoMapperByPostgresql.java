@@ -17,6 +17,7 @@
 package com.alibaba.nacos.plugin.datasource.impl.postgresql;
 
 import com.alibaba.nacos.plugin.datasource.constants.DatabaseTypeConstant;
+import com.alibaba.nacos.plugin.datasource.enums.TrustedPostgreSqlFunctionEnum;
 import com.alibaba.nacos.plugin.datasource.impl.base.BaseConfigInfoMapper;
 
 /**
@@ -25,10 +26,24 @@ import com.alibaba.nacos.plugin.datasource.impl.base.BaseConfigInfoMapper;
  * @author Long Yu
  **/
 public class ConfigInfoMapperByPostgresql extends BaseConfigInfoMapper {
-    
+
+    /**
+     * 解决NOW(integer)错误问题
+     *
+     * @param functionName
+     * @return
+     * @author sinhy
+     * @see com.alibaba.nacos.plugin.datasource.impl.mysql.AbstractMapperByMysql#getFunction(java.lang.String)
+     * @since 2024-07-23 00:00
+     */
+    @Override
+    public String getFunction(String functionName) {
+        return TrustedPostgreSqlFunctionEnum.getFunctionByName(functionName);
+    }
+
     @Override
     public String getDataSource() {
         return DatabaseTypeConstant.POSTGRESQL;
     }
-    
+
 }
